@@ -32,10 +32,29 @@ let $tabla :=
         </tr>
     }
   </table>
-return $tabla```
-
+return $tabla
+```
 
 (2 punto) Incluir un nuevo premiado en un nuevo fichero
+
+let $ruta_archivo := "ruta/juegos_premios.xml"
+let $nueva_categoria := "juegos"
+let $nuevo_año := 2007
+let $nuevo_premiado := "Zelda"
+let $nuevo_motivo := "Juego del año"
+
+let $nuevo_premio := <premio categoria="{$nueva_categoria}">
+                        <año>{$nuevo_año}</año>
+                        <premiado>{$nuevo_premiado}</premiado>
+                        <motivo>{$nuevo_motivo}</motivo>
+                    </premio>
+let $nuevo_archivo := <premios_nobel>
+                        <premios>{$nuevo_premio}</premios>
+                      </premios_nobel>
+let $xml_string := serialize($nuevo_archivo, map { "method": "xml", "indent": true() })
+
+xbase:write-file($ruta_archivo, $xml_string)
+
 
 (2 puntos) Realizar un fichero nuevo incluyendo motivos en los que no tienen
 
