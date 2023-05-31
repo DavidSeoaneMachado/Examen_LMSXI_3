@@ -94,4 +94,26 @@ Realiza una aplicación para usar el fichero employees.json (repositorio)
 
 (2 puntos) Que lea el fichero y guarde los datos en un array list
 
+   Gson gson = new Gson();
+        String filePath = "employees.json";
+
+        try (FileReader fileReader = new FileReader(filePath)) {
+            // Lee el archivo JSON completo como un objeto
+            Employee employeesData = gson.fromJson(fileReader, Employee.class);
+
+            // Obtiene la lista de empleados del objeto EmployeesData
+            List<Employee> employees = employeesData.getEmployees();
+
+            // Recorre la lista de empleados y muestra sus datos
+            System.out.println("La lista de empleados es:");
+            for (Employee employee : employees) {
+                System.out.println("Empleado:");
+                System.out.println("Nombre: " + employee.getFirstName());
+                System.out.println("Apellido: " + employee.getLastName());
+                System.out.println();
+            } 
+             catch (IOException e) {
+            e.printStackTrace();
+        }
+
 (2 puntos) Despues de modificar algun datos en el array list que lo vuelva a guardar

@@ -4,33 +4,41 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Gestion_employees {
     public static void main(String[] args) {
-        ArrayList<Employee> arrayList = new ArrayList<>();
+        Gson gson = new Gson();
+        String filePath = "employees.json";
 
-        try {
-            FileReader fileReader = new FileReader("employees.json");
+        try (FileReader fileReader = new FileReader(filePath)) {
+            // Lee el archivo JSON completo como un objeto
+            Employee employeesData = gson.fromJson(fileReader, Employee.class);
 
-            // Leer el fichero JSON
-            Gson gson = new Gson();
+            // Obtiene la lista de empleados del objeto EmployeesData
+            List<Employee> employees = employeesData.getEmployees();
 
-            // Obtener el tipo de datos para el ArrayList<Employee>
-            Type employeeListType = new TypeToken<ArrayList<Employee>>() {}.getType();
-
-            // Deserializar el JSON en un ArrayList<Employee>
-            arrayList = gson.fromJson(fileReader, employeeListType);
-
-            // Imprimir los empleados del ArrayList
-            for (Employee employee : arrayList) {
-                System.out.println("First Name: " + employee.getFirst_name());
-                System.out.println("Last Name: " + employee.getLastName());
-                System.out.println("--------------------");
+            // Recorre la lista de empleados y muestra sus datos
+            System.out.println("La lista de empleados es:");
+            for (Employee employee : employees) {
+                System.out.println("Empleado:");
+                System.out.println("Nombre: " + employee.getFirstName());
+                System.out.println("Apellido: " + employee.getLastName());
+                System.out.println();
             }
-        } catch (Exception e) {
+
+            Employee nuevo_employee = new Employee("David", "Seoane");
+            employees.add(nuevo_employee);
+
+            try(FileWriter fileWriter = new FileWriter("employees.json")){
+                gson.toJson(employees, fileWriter);
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
