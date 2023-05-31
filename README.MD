@@ -117,3 +117,12 @@ Realiza una aplicación para usar el fichero employees.json (repositorio)
         }
 
 (2 puntos) Despues de modificar algun datos en el array list que lo vuelva a guardar
+
+A continuacion del condigo anterior y justo antes del catch añadimos lo siguiente:
+
+ Employee nuevo_employee = new Employee("David", "Seoane");
+            employees.add(nuevo_employee);
+
+            try(FileWriter fileWriter = new FileWriter("employees.json")){
+                gson.toJson(employees, fileWriter);
+            }
